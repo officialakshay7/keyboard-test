@@ -1,0 +1,470 @@
+/* =============================================
+   Keyboard Test Online — stylesheet
+   keyboard-test.info
+   ============================================= */
+
+/* ── Google Sans local font ── */
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/google-sans-latin-400-normal.woff2') format('woff2'),
+       url('/fonts/google-sans-latin-400-normal.woff')  format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/google-sans-latin-500-normal.woff2') format('woff2'),
+       url('/fonts/google-sans-latin-500-normal.woff')  format('woff');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/google-sans-latin-700-normal.woff2') format('woff2'),
+       url('/fonts/google-sans-latin-700-normal.woff')  format('woff');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0; padding: 0;
+  font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a; color: #fff; line-height: 1.6;
+}
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+.site-nav {
+  background: #111; border-bottom: 1px solid #222;
+  padding: 0 20px; position: sticky; top: 0; z-index: 100;
+}
+.site-nav .nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center;
+  justify-content: space-between; height: 56px; gap: 16px;
+}
+.site-nav .logo {
+  font-size: 20px; font-weight: 700; color: #00e1ef;
+  text-decoration: none; letter-spacing: -0.5px; white-space: nowrap;
+}
+.site-nav .logo span { color: #fff; }
+.nav-links { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { color: #aaa; text-decoration: none; font-size: 14px; transition: color .2s; }
+.nav-links a:hover { color: #fff; }
+.nav-lang { position: relative; display: flex; align-items: center; flex-shrink: 0; }
+.lang-globe { position: absolute; left: 8px; font-size: 13px; pointer-events: none; z-index: 1; }
+.lang-select {
+  appearance: none; -webkit-appearance: none;
+  background: #1a1a1a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E") no-repeat right 10px center;
+  border: 1px solid #2a2a2a; color: #aaa; border-radius: 6px;
+  padding: 5px 30px 5px 24px; font-size: 13px; cursor: pointer;
+  transition: border-color .2s, color .2s; min-width: 140px;
+}
+.lang-select:hover, .lang-select:focus { border-color: #00e1ef44; color: #fff; outline: none; }
+
+/* ════════════════════════════════
+   HERO / SITE HEADER
+
+   Full-viewport height hero.
+   Background image on the header itself.
+   .keybord holds blur + fade + content (position:absolute fills).
+   Key-log lives INSIDE .keybord at the top of .content.
+════════════════════════════════ */
+.site-header {
+  background: url('/images/bacgr.jpg') no-repeat center center;
+  background-size: cover;
+  background-color: #000;
+  /* Full height minus the sticky nav */
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title area above keyboard */
+.hero-top {
+  padding: 24px 20px 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.hero-top h1 {
+  font-size: 28px; font-weight: 700; margin: 0 0 4px;
+  color: #fff; letter-spacing: 0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+}
+.hero-top p.subtitle {
+  font-size: 14px; color: #ddd; margin: 0;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+}
+
+/* ════════════════════════════════
+   KEYBOARD WRAPPER + KEYBORD
+
+   keyboard-wrap scrolls horizontally if needed.
+   keybord is position:relative — blur/fade/content
+   are all position:absolute filling 100% of it.
+   flex-grow:1 so it expands to fill remaining
+   vertical space in the full-height header.
+════════════════════════════════ */
+.keyboard-wrap {
+  overflow-x: auto;
+  padding: 0 0 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.keybord {
+  /* Grows to fill remaining vertical space */
+  flex: 1;
+  min-height: 580px;
+  margin: 0 auto;
+  width: 1264px;
+  position: relative;
+  /* Keyboard border */
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Blurred background — fills keybord, scale hides blur fringe */
+.blur {
+  background: url('/images/bacgr.jpg') no-repeat center 51%;
+  background-size: cover;
+  filter: blur(20px);
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1;
+  transform: scale(1.08);
+}
+
+/* Dark overlay — 45% so image shows through clearly */
+.fade {
+  background-color: #000;
+  opacity: 0.45;
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 2;
+}
+
+/* Content layer — all keys + key-log inside */
+.content {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ════════════════════════════════
+   KEY LOG — inside keyboard at top
+   Width naturally matches the keybord container.
+════════════════════════════════ */
+.keybord-top {
+  background: rgba(0, 0, 0, 0.80);
+  color: #00e1ef;
+  font-size: 14px;
+  height: 36px;
+  flex-shrink: 0;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.keybord-top .log-label { color: #555; margin-right: 4px; flex-shrink: 0; }
+.keybord-top .kpill {
+  background: #00e1ef22; border: 1px solid #00e1ef55;
+  border-radius: 4px; padding: 1px 8px; font-size: 13px;
+  color: #00e1ef; animation: kfade .1s; flex-shrink: 0;
+}
+@keyframes kfade {
+  from { opacity: 0; transform: scale(.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* The key-block area grows to fill the rest of .content */
+.key-block-wrap {
+  flex: 1;
+  overflow: hidden;
+}
+.key-block { padding: 0 22px; }
+
+/* ════════════════════════════════
+   KEYS — base style
+
+   IMPORTANT: display:inline-block (NOT inline-flex)
+   so that float:right works correctly on .plus and
+   .enter2 keys (double-height numpad keys).
+
+   Vertical centering via position:absolute on .key p.
+════════════════════════════════ */
+.key {
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 26px;
+  color: #fff;
+  display: inline-block;   /* float:right must work */
+  font-size: 18px;
+  height: 52px;
+  width: 52px;
+  text-align: center;
+  vertical-align: top;
+  margin: 5px 1px;
+  cursor: default;
+  user-select: none;
+  position: relative;      /* anchor for absolute p */
+  transition: background .08s, border-color .08s, color .08s;
+}
+
+/* Vertically center all key text with absolute positioning */
+.key p {
+  margin: 0; padding: 0;
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  transform: translateY(-50%);
+  line-height: 1.25;
+  text-align: center;
+}
+
+/* Key states */
+.key.press  { background-color: #00e1ef; border-color: #00e1ef; color: #000; }
+.key.active { background-color: #fff;    border-color: #fff;    color: #000; }
+
+/* Spacers */
+.vh     { visibility: hidden; }
+.half   { width: 22px; }
+.brackets { margin-left: 8px; margin-right: 8px; }
+
+/* ── Double-character keys: {[  ]}  |\  :;  "'  ,<  .>  /? ──
+   Two stacked chars via <br>. Absolute-centered p works
+   perfectly: the 2-line block is centered in the 52px key. ── */
+.key.ds p { font-size: 13px; line-height: 1.3; }
+
+/* ── Small two-line label keys: Prt/Sc  Scr/Lk  Num/Lock … ── */
+.key.dl p { font-size: 12px; line-height: 1.2; }
+.key.dl.smin  p { font-size: 22px; line-height: 1; }
+.key.dl.splus p { font-size: 16px; line-height: 1.1; }
+.key.t16 p { font-size: 14px; }
+
+/* ── Backspace ── */
+.key.bs      { width: 112px; }
+.key.bs p    { font-size: 28px; line-height: 1; }
+
+/* ── Tab ── */
+.key.tab     { width: 83px; }
+.key.tab p   { font-size: 15px; }
+
+/* ── Pipe/backslash ── */
+.key.ds.sum  { width: 81px; }
+
+/* ── Numpad + (double-height, floats RIGHT of numpad col) ──
+   Must appear in HTML BEFORE the Caps row keys.
+   float:right works because .key is display:inline-block. ── */
+.key.plus    { float: right; height: 116px; }
+.key.plus p  { top: 50%; }   /* already handled by base rule */
+
+/* ── Caps Lock ── */
+.key.caps    { width: 105px; }
+.key.caps p  { font-size: 14px; }
+
+/* ── Main Enter ── */
+.key.enter   { width: 119px; }
+.key.enter p {
+  font-size: 15px;
+  display: flex; align-items: center;
+  gap: 4px; justify-content: center;
+  /* override absolute to flex inline */
+  position: absolute; top: 50%; left: 0; right: 0;
+  transform: translateY(-50%);
+}
+.key.enter span {
+  background: rgba(0,0,0,0) url("wk.png") no-repeat -24px 0;
+  display: inline-block; height: 12px; width: 24px; flex-shrink: 0;
+}
+
+/* ── Shifts ── */
+.key.shift1    { width: 132px; }
+.key.shift2    { width: 152px; }
+.key.shift1 p,
+.key.shift2 p  { font-size: 14px; }
+
+/* ── Numpad Enter (double-height, floats RIGHT of numpad col) ──
+   Must appear in HTML BEFORE the Ctrl/Win/Alt row.
+   float:right works because .key is display:inline-block. ── */
+.key.enter2    { float: right; height: 116px; }
+.key.enter2 p  { font-size: 14px; }
+
+/* ── Ctrl ── */
+.key.ctrl1, .key.ctrl2   { width: 70px; }
+.key.ctrl1 p, .key.ctrl2 p { font-size: 14px; }
+
+/* ── Context menu ── */
+.key.cont   { width: 66px; }
+.cblock     { border: 1px solid #fff; height: 25px; width: 25px; margin: 0 auto; }
+.cblock > span { border-bottom: 1px solid #fff; display: block; margin: 5px 3px 0; }
+
+/* ── Windows key ── */
+.key.wndw   { width: 70px; }
+.key.wndw p { margin: 14px auto 0; position: relative; top: auto; transform: none; }
+.key.wndw span {
+  background: rgba(0,0,0,0) url("wk.png") no-repeat 0 0;
+  display: block; height: 23px; width: 24px; margin: 0 auto;
+}
+
+/* ── Alt ── */
+.key.alt    { width: 70px; }
+.key.alt p  { font-size: 14px; }
+
+/* ── Space ── */
+.key.space  { width: 428px; }
+
+/* ── Numpad 0 ── */
+.key.zero   { width: 112px; }
+
+/* ── Arrow keys ── */
+.key.arup   p { font-size: 20px; transform: translateY(-50%) rotate(-90deg); }
+.key.ardown p { font-size: 20px; transform: translateY(-50%) rotate(90deg); }
+.key.arleft p,
+.key.arright p { font-size: 20px; }
+
+/* ── Mouse buttons ── */
+.m-block    { display: inline-block; text-align: center; vertical-align: bottom; width: 843px; }
+.key.lclick { border-radius: 0 0 0 15px; height: 40px; vertical-align: bottom; width: 96px; }
+.key.rclick { border-radius: 0 0 15px 0; height: 40px; vertical-align: bottom; width: 96px; }
+.key.cclick { border-radius: 0;          height: 40px; vertical-align: bottom; width: 24px; }
+
+/* ── Active/pressed overrides ── */
+.key.wndw.active  span, .key.wndw.press  span { background-position: 0 -23px; }
+.key.enter.active span, .key.enter.press span  { background-position: -24px -13px; }
+.key.cont.active  .cblock,        .key.cont.press  .cblock,
+.key.cont.active  .cblock > span, .key.cont.press  .cblock > span { border-color: #000; }
+
+/* ── Keyboard footer ── */
+.keybord-footer {
+  flex-shrink: 0;
+}
+.keybord-footer > p {
+  background-color: rgba(0,0,0,0.85);
+  color: #ccc; font-size: 13px;
+  margin: 0; padding: 7px 0;
+  text-align: center; letter-spacing: 1px;
+}
+
+/* ════════════════════════════════
+   STATUS BAR & LEGEND
+   These sit below the keyboard-wrap, still inside site-header
+════════════════════════════════ */
+.status-bar {
+  display: flex; justify-content: center; gap: 20px;
+  padding: 10px 20px; background: rgba(0,0,0,0.75);
+  font-size: 13px; color: #ccc; flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.status-bar .status-item { display: flex; align-items: center; gap: 6px; }
+.status-badge  { padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.badge-green   { background: #00ff8822; color: #00ff88; border: 1px solid #00ff8844; }
+.badge-gray    { background: #ffffff11; color: #aaa;    border: 1px solid #ffffff22; }
+#reset-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+  color: #ccc; padding: 4px 14px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; transition: all .2s;
+}
+#reset-btn:hover { border-color: #00e1ef; color: #00e1ef; }
+
+.legend {
+  display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  padding: 10px 20px 18px; background: rgba(0,0,0,0.75);
+  font-size: 13px; color: #ccc; flex-shrink: 0;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-key  {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.legend-key.normal  { border: 1px solid rgba(255,255,255,.85); color: #fff; }
+.legend-key.pressed { background: #00e1ef; border: 1px solid #00e1ef; color: #000; }
+.legend-key.tested  { background: #fff;    border: 1px solid #fff;    color: #000; }
+
+/* ════════════════════════════════
+   CONTENT SECTIONS
+════════════════════════════════ */
+.content-section { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+.content-section h2 { font-size: 22px; color: #fff; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid #222; }
+.content-section h3 { font-size: 17px; color: #eee; margin: 22px 0 8px; }
+.content-section p  { color: #bbb; font-size: 15px; margin: 0 0 14px; }
+.content-section ul { color: #bbb; font-size: 15px; padding-left: 20px; margin: 0 0 14px; }
+.content-section ul li { margin-bottom: 6px; }
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 16px; margin: 20px 0; }
+.feature-card { background: #111; border: 1px solid #222; border-radius: 12px; padding: 20px; }
+.feature-card .icon { font-size: 28px; margin-bottom: 10px; }
+.feature-card h3    { font-size: 15px; color: #fff; margin: 0 0 6px; }
+.feature-card p     { font-size: 13px; color: #888; margin: 0; }
+
+/* ════════════════════════════════
+   LANG SWITCHER
+════════════════════════════════ */
+.lang-switcher { background: #0d0d0d; border-top: 1px solid #1a1a1a; padding: 20px; text-align: center; }
+.lang-switcher h3 { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 14px; }
+.lang-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 1000px; margin: 0 auto; }
+.lang-grid a { color: #777; text-decoration: none; font-size: 13px; padding: 4px 12px; border: 1px solid #222; border-radius: 20px; transition: all .2s; }
+.lang-grid a:hover  { color: #00e1ef; border-color: #00e1ef33; }
+.lang-grid a.active { color: #00e1ef; border-color: #00e1ef44; background: #00e1ef11; }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+.site-footer { background: #000; border-top: 1px solid #1a1a1a; padding: 30px 20px; text-align: center; }
+.footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.footer-links a { color: #666; text-decoration: none; font-size: 13px; transition: color .2s; }
+.footer-links a:hover { color: #aaa; }
+.footer-copy { font-size: 12px; color: #444; }
+.footer-copy a { color: #555; text-decoration: none; }
+
+/* ════════════════════════════════
+   UTILITY PAGES
+════════════════════════════════ */
+.page-wrap { max-width: 800px; margin: 40px auto; padding: 0 24px 60px; }
+.page-wrap h1        { font-size: 28px; margin-bottom: 6px; }
+.page-wrap h3        { font-size: 17px; color: #eee; margin: 22px 0 8px; }
+.page-wrap p         { color: #bbb; font-size: 15px; margin: 0 0 14px; }
+.page-wrap .page-lead{ font-size: 16px; color: #888; margin-bottom: 32px; }
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.contact-form input,
+.contact-form textarea {
+  background: #111; border: 1px solid #2a2a2a; color: #fff;
+  border-radius: 8px; padding: 12px 14px; font-size: 15px;
+  font-family: inherit; outline: none; transition: border-color .2s; width: 100%;
+}
+.contact-form input:focus,
+.contact-form textarea:focus  { border-color: #00e1ef55; }
+.contact-form textarea { min-height: 140px; resize: vertical; }
+.contact-form button {
+  background: #00e1ef; color: #000; border: none; padding: 13px 30px;
+  border-radius: 8px; font-size: 15px; font-weight: 700;
+  cursor: pointer; align-self: flex-start; transition: opacity .2s;
+}
+.contact-form button:hover { opacity: .85; }
+.form-success { background: #00ff8811; border: 1px solid #00ff8833; color: #00ff88; border-radius: 8px; padding: 14px 18px; font-size: 14px; display: none; }
+.info-box     { background: #111; border: 1px solid #222; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+.info-box h3  { font-size: 15px; color: #eee; margin: 0 0 6px; }
+.info-box p   { font-size: 14px; color: #888; margin: 0; }
+.breadcrumb   { font-size: 13px; color: #555; padding: 12px 24px; max-width: 860px; margin: 0 auto; }
+.breadcrumb a       { color: #666; text-decoration: none; }
+.breadcrumb a:hover { color: #aaa; }
+.breadcrumb span    { margin: 0 6px; }
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 1300px) { .keyboard-wrap { overflow-x: scroll; } }
+@media (max-width: 768px) {
+  .hero-top h1 { font-size: 20px; }
+  .site-nav .nav-inner { flex-wrap: wrap; height: auto; padding: 10px 0; gap: 8px; }
+  .nav-links  { gap: 14px; }
+  .nav-links a { font-size: 13px; }
+  .content-section { padding: 28px 16px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .footer-links { gap: 12px; }
+}
